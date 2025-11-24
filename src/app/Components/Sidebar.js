@@ -30,7 +30,7 @@ const Sidebar = () => {
     { id: 4, name: "Image Management", icon: Image, path: "/imageManagement" },
     { id: 5, name: "Art Generation", icon: Palette, path: "/artGeneration" },
     { id: 6, name: "Gameplays", icon: Gamepad, path: "/gameplays" },
-    { id: 7, name: "Daily Match", icon: Calendar, path: "/daily-match" },
+    { id: 7, name: "Daily Match", icon: Calendar, path: "/dailyMatch" },
     { id: 8, name: "Community", icon: MessageCircle, path: "/community" },
     { id: 9, name: "Badges", icon: Award, path: "/badges" },
     { id: 10, name: "Subscription", icon: CreditCard, path: "/subscription" },

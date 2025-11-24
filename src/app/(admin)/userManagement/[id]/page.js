@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,10 +9,23 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Tabs from "@/app/Components/Tabs";
-import UserManagementTable from "@/app/Components/UserManagement/UserManagementTable";
+
 import StatCards from "@/app/Components/StatCards";
+import { useParams } from "next/navigation";
+import {
+  getSingleUserStats,
+  getUserById,
+} from "../../../../../Api/UserManagement/page";
+import { toast } from "react-toastify";
+import SoloWalkTableNew from "@/app/Components/UserManagement/SoloWalkTableNew";
+import QuickMatchTable from "@/app/Components/UserManagement/QuickMatchTable";
+import GroupJourneyTable from "@/app/Components/UserManagement/GroupJourneyTable";
 
 const Page = () => {
+  const params = useParams();
+  const { id } = params;
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const tabItems = [
     { id: "gameplays", label: "Gameplays" },
     { id: "daily-match", label: "Daily Match" },
@@ -21,32 +34,53 @@ const Page = () => {
     { id: "badges", label: "Badges" },
     { id: "subscriptions", label: "Subscriptions" },
   ];
-  const [activeTab, setActiveTab] = useState(tabItems[0].id);
-  // const renderTable = () => {
-  //   switch (activeTab) {
-  //     case "gameplays":
-  //       return <div>🎮 Gameplays Table</div>;
-  //     case "daily-match":
-  //       return <div>📅 Daily Match Table</div>;
-  //     case "groups":
-  //       return <div>👥 Groups Table</div>;
-  //     case "art-generation":
-  //       return <div>🎨 Art Generation Table</div>;
-  //     case "badges":
-  //       return <div>🏅 Badges Table</div>;
-  //     case "subscriptions":
-  //       return <div>💳 Subscriptions Table</div>;
-  //     default:
-  //       return null;
-  //   }
-  // };
-   const stats = [
-    { title: 'Total Games Played', number: 2426 },
-    { title: 'Solo Walk', number: 2426 },
-    { title: 'Quick Match', number: 453 },
-    { title: 'Group Journey', number: 4563 },
-   
+  const tabItems2 = [
+    { id: "soloWalk", label: "Solo Walk" },
+    { id: "quickMatch", label: "Quick Match" },
+    { id: "groupJourney", label: "Group Journey" },
   ];
+  const [activeTab, setActiveTab] = useState(tabItems[0].id);
+  const [activeTab2, setActiveTab2] = useState(tabItems2[0].id);
+
+  const [statsData, setStatsData] = useState([]);
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const result = await getUserById(id);
+      if (result.data) {
+        setData(result.data);
+        setLoading(false);
+      }
+    } catch (error) {
+      toast.error(error.message || "Unable to fetch data");
+    }
+    setLoading(false);
+  };
+  const fetchStats = async () => {
+    setLoading(true);
+    try {
+      const result = await getSingleUserStats(id);
+      if (result.data) {
+        setStatsData(result.data[0] ?? {});
+        setLoading(false);
+      }
+    } catch (error) {
+      toast.error(error.message || "Unable to fetch data");
+    }
+    setLoading(false);
+  };
+  const stats = [
+    { title: "Total Games Played", number: statsData?.total },
+    { title: "Solo Walk", number: statsData?.soloWalk },
+    { title: "Quick Match", number: statsData?.quickMatch },
+    { title: "Group Journey", number: statsData?.groupJourney },
+  ];
+  useEffect(() => {
+    if (id) {
+      fetchData();
+      fetchStats();
+    }
+  }, [id]);
   return (
     <div className="flex flex-col gap-5 mb-5">
       <Breadcrumb>
@@ -72,13 +106,15 @@ const Page = () => {
         <div className="bg-white w-2/3 rounded-lg border border-[#8380B4] p-5">
           <div className="grid grid-cols-[200px_1fr] gap-y-3 gap-x-5">
             <p className="font-medium text-[#4E4C6A] text-base">User Id :</p>
-            <p className="font-medium text-[#1C1C1C] text-sm">123456</p>
+            <p className="font-medium text-[#1C1C1C] text-sm">{data?._id}</p>
 
             <p className="font-medium text-[#4E4C6A] text-base">User Name :</p>
-            <p className="font-medium text-[#1C1C1C] text-sm">Biblekid1234</p>
+            <p className="font-medium text-[#1C1C1C] text-sm">
+              {data?.username}
+            </p>
 
             <p className="font-medium text-[#4E4C6A] text-base">Full Name :</p>
-            <p className="font-medium text-[#1C1C1C] text-sm">John Doe</p>
+            <p className="font-medium text-[#1C1C1C] text-sm">{data?.name}</p>
 
             <p className="font-medium text-[#4E4C6A] text-base">Email :</p>
             <p className="font-medium text-[#1C1C1C] text-sm">
@@ -89,13 +125,13 @@ const Page = () => {
               Favorite Verse :
             </p>
             <p className="wrap-break-word font-medium text-[#1C1C1C] text-sm">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam,
+              {data?.favoriteQuote}
             </p>
 
             <p className="font-medium text-[#4E4C6A] text-base">Church :</p>
-            <p className="font-medium text-[#1C1C1C] text-sm">Church Name</p>
+            <p className="font-medium text-[#1C1C1C] text-sm">
+              {data?.favoriteChurch}
+            </p>
 
             <p className="font-medium text-[#4E4C6A] text-base">
               Account Status :
@@ -111,12 +147,25 @@ const Page = () => {
       </div>
       <div className="w-full flex flex-col gap-5 ">
         <Tabs items={tabItems} onTabChange={setActiveTab} />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {stats.map((stat, index) => (
-            <StatCards key={index} title={stat.title} number={stat.number} />
-          ))}
-        </div>
-        {activeTab === "gameplays" && <UserManagementTable/>}
+        {activeTab === "gameplays" && (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {stats.map((stat, index) => (
+                <StatCards
+                  key={index}
+                  title={stat.title}
+                  number={stat.number}
+                />
+              ))}
+            </div>
+            <div className="px-8">
+              <Tabs items={tabItems2} onTabChange={setActiveTab2} />
+            </div>
+            {activeTab2 === "soloWalk" && <SoloWalkTableNew New id={id} />}
+            {activeTab2 === "quickMatch" && <QuickMatchTable New id={id} />}
+            {activeTab2 === "groupJourney" && <GroupJourneyTable New id={id} />}
+          </>
+        )}
       </div>
     </div>
   );

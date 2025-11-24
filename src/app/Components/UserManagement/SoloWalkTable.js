@@ -33,7 +33,7 @@ const StatusBadge = ({ status }) => {
   );
 };
 
-const UserManagementTable = () => {
+const SoloWalkTable = () => {
   const [searchValue, setSearchValue] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -59,7 +59,7 @@ const UserManagementTable = () => {
   const columns = [
     {
       accessorKey: "_id",
-      header: "id",
+      header: "Match ID",
       cell: ({ row }) => {
         const value = row.original._id;
         return (
@@ -73,10 +73,16 @@ const UserManagementTable = () => {
       },
     },
     {
-      accessorKey: "username",
-      header: "Username",
+      accessorKey: "lastLogin",
+      header: "Date",
+      cell: ({ row }) =>
+        dayjs(row.original.lastLogin).format("DD//MM/YYYY, hh:mm A"),
+    },
+    {
+      accessorKey: "Difficulty",
+      header: "Difficulty",
       cell: ({ row }) => {
-        const value = row.original.username;
+        const value = row.original.Difficulty;
         return (
           <span
             title={value}
@@ -87,16 +93,10 @@ const UserManagementTable = () => {
         );
       },
     },
-    { accessorKey: "email", header: "Email" },
-    { accessorKey: "groupCount", header: "Groups" },
-    { accessorKey: "reflectionCount", header: "Reflections" },
-    {
-      accessorKey: "lastLogin",
-      header: "Last Login",
-      cell: ({ row }) =>
-        dayjs(row.original.lastLogin).format("DD//MM/YYYY, hh:mm A"),
-    },
-    { accessorKey: "badges", header: "Badges" },
+    { accessorKey: "Rounds ", header: "Rounds " },
+    { accessorKey: "Verse Match", header: "Verse Match" },
+    { accessorKey: "Reflections", header: "Reflections" },
+
     {
       accessorKey: "status",
       header: "Status",
@@ -121,17 +121,11 @@ const UserManagementTable = () => {
                   router.push(`/userManagement/${row.original?._id}`)
                 }
               >
-                <Eye color="gray" size={14} /> View
+                <Eye color="gray" size={14} /> View Details
               </DropdownMenuItem>
               {/* <DropdownMenuItem onClick={() => console.log("Edit", user)}>
                 <Pencil color="gray" size={14} /> Edit
               </DropdownMenuItem> */}
-              <DropdownMenuItem
-                onClick={() => console.log("Delete", user)}
-                className="text-red-700"
-              >
-                <Trash2 color="red" size={14} /> Delete
-              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         );
@@ -139,7 +133,6 @@ const UserManagementTable = () => {
     },
   ];
 
-  // Only core model: no filtering, no sorting
   const table = useReactTable({
     data,
     columns,
@@ -148,32 +141,30 @@ const UserManagementTable = () => {
 
   return (
     <div className="bg-white rounded-lg border shadow-sm overflow-hidden">
-      {/* Header */}
-      <div className="bg-[#4E4C6A] px-6 py-3 flex items-center gap-5">
-        <h2 className="text-white text-lg font-semibold">Users</h2>
-
-        <div className="flex items-center justify-between w-full gap-3">
-          {/* Search (UI only, no filtering) */}
-          <div className="relative">
+      <div className="bg-[#4E4C6A]  flex-row px-6 py-3 flex justify-between items-center gap-5">
+        <div className="flex flex-row items-center gap-3 w-full">
+          {" "}
+          <h2 className="text-white text-lg font-semibold w-full">Solo Walk</h2>
+          <div className="relative ">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text"
-              placeholder="Search in users"
+              placeholder="Search"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               className="pl-10 pr-4 py-2 bg-white border rounded-md text-sm w-96"
               disabled={loading}
             />
           </div>
+        </div>
 
+        <div className="flex items-center justify-end  w-full gap-3">
           <div className="flex gap-3">
-            {/* Filters UI only */}
             <button className="flex items-center gap-2 px-4 py-2 bg-white border rounded-md text-sm text-gray-700">
               <SlidersHorizontal color="#DBB358" size={16} />
               Filters
             </button>
 
-            {/* Sort UI only */}
             <button className="flex items-center gap-2 px-4 py-2 bg-white border rounded-md text-sm text-gray-700">
               <ArrowUpDown color="#DBB358" size={16} />
               Sort
@@ -182,7 +173,6 @@ const UserManagementTable = () => {
         </div>
       </div>
 
-      {/* Table */}
       <DataTable
         table={table}
         loading={loading}
@@ -192,4 +182,4 @@ const UserManagementTable = () => {
   );
 };
 
-export default UserManagementTable;
+export default SoloWalkTable;
