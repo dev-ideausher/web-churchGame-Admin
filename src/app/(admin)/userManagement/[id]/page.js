@@ -20,6 +20,7 @@ import { toast } from "react-toastify";
 import SoloWalkTableNew from "@/app/Components/UserManagement/SoloWalkTableNew";
 import QuickMatchTable from "@/app/Components/UserManagement/QuickMatchTable";
 import GroupJourneyTable from "@/app/Components/UserManagement/GroupJourneyTable";
+import DailyMatchTable from "@/app/Components/UserManagement/DailyMatchTable";
 
 const Page = () => {
   const params = useParams();
@@ -166,6 +167,11 @@ const Page = () => {
             {activeTab2 === "groupJourney" && <GroupJourneyTable New id={id} />}
           </>
         )}
+        {activeTab === "daily-match" && <DailyMatchTable id={id}/>}
+        {activeTab === "groups" && <div>Groups</div>}
+        {activeTab === "art-generation" && <div>Art Generation</div>}
+        {activeTab === "badges" && <div>Badges</div>}
+        {activeTab === "subscriptions" && <div>Subscriptions</div>}
       </div>
     </div>
   );
