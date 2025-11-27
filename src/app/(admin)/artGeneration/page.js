@@ -1,38 +1,54 @@
-"use client"
-import React, { useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import UserManagementTable from "@/app/Components/UserManagement/UserManagementTable";
 import StatCards from "@/app/Components/StatCards";
 import Tabs from "@/app/Components/Tabs";
+import ArtLisitngTable from "@/app/Components/ArtGeneration/ArtLisitingTable";
+import { toast } from "react-toastify";
+import { getArtStats } from "../../../../Api/ArtGenerationApi/page";
 
 export default function Page() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const result = await getArtStats();
+      if (result.status) {
+        setData(result.data);
+        setLoading(false);
+      }
+    } catch (error) {
+      toast.error(error.message || "Something went wrong while getting stats");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const stats = [
-    { title: "Total art generated", number: 2426 },
-    { title: "Pending approvals", number: 2426 },
-    { title: "Approved for gameplay", number: 453 },
-    { title: "Rejected", number: 4563 },
+    { title: "Total art generated", number: data?.totalGenerated ?? "--" },
+    { title: "Pending approvals", number: data?.requested ?? "--" },
+    { title: "Approved for gameplay", number: data?.accepted ?? "--" },
+    { title: "Rejected", number: data?.rejected ?? "--" },
   ];
   const tabItems = [
     { id: "gameplays", label: "Generation" },
     { id: "daily-match", label: "Approval Requests" },
   ];
+  useEffect(() => {
+    fetchData();
+  }, []);
   const [activeTab, setActiveTab] = useState(tabItems[0].id);
   return (
     <div className="flex flex-col gap-5 mb-5">
       <Breadcrumb>
         <BreadcrumbList>
-          {/* <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator /> */}
           <BreadcrumbItem>
             <BreadcrumbLink
               className="font-semibold text-base"
@@ -41,10 +57,6 @@ export default function Page() {
               Art Generation
             </BreadcrumbLink>
           </BreadcrumbItem>
-          {/* <BreadcrumbSeparator /> */}
-          {/* <BreadcrumbItem>
-            <BreadcrumbPage>User Details</BreadcrumbPage>
-          </BreadcrumbItem> */}
         </BreadcrumbList>
       </Breadcrumb>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -54,7 +66,7 @@ export default function Page() {
       </div>
       <Tabs items={tabItems} onTabChange={setActiveTab} />
 
-      <UserManagementTable />
+      <ArtLisitngTable />
     </div>
   );
 }

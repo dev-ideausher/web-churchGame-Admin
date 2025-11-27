@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -11,14 +11,36 @@ import {
 import { Pencil } from "lucide-react";
 import Image from "next/image";
 import DetailsBox from "@/app/Components/DetailsBox";
+import { useParams } from "next/navigation";
+import { toast } from "react-toastify";
+import { getDetailsById } from "../../../../../Api/ArtGenerationApi/page";
+import dayjs from "dayjs";
 const Page = () => {
+  const params = useParams();
+  const { id } = params;
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const result = await getDetailsById(id);
+      if (result.status) {
+        setData(result.data);
+        setLoading(false);
+      }
+    } catch (error) {
+      toast.error(error.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
   const details = [
-    { label: "Image ID", value: "123456" },
+    { label: "Image ID", value: data?.art?.id },
     { label: "User Name", value: "Biblekid1234" },
-    { label: "Image generated on", value: "2 August 2025, 3:56 pm" },
-    { label: "Status", value: "Completed" },
-    { label: "Subscription type", value: "Free" },
-    { label: "Average time for generation", value: "03:00 minutes" },
+    { label: "Image generated on", value: dayjs(data?.createdAt).format("DD/MM/YYYY, h:mm A") },
+    { label: "Status", value: data?.status },
+    { label: "Subscription type", value: data?.subscription },
+    { label: "Average time for generation", value: data?.avgGenTime },
   ];
   const ImageDetails = [
     { label: "Style", value: "Lego" },
@@ -26,22 +48,28 @@ const Page = () => {
     {
       label: "Original Prompt",
       value:
-        "Lorem ipsum dolor sit amet, consectetur piscing elit, lorem ipsum dolor sit amet, consectetur piscing elit orem ipsum dolor sit amet, consectetur piscing elit",
+        data?.initialPrompt,
     },
 
     {
       label: "Final Prompt",
       value:
-        "Lorem ipsum dolor sit amet, consectetur piscing elit, lorem ipsum dolor sit amet, consectetur piscing elit orem ipsum dolor sit amet, consectetur piscing elit",
+       data?.finalPrompt,
     },
 
     {
       label: "Image",
-      value: "/image1.png",
+      value: data?.art?.url,
       type: "image",
     },
   ];
-
+  useEffect(() => {
+    if (!id) {
+      toast.error("Something went wrong");
+    } else {
+      fetchData();
+    }
+  }, [id]);
   return (
     <div className="flex flex-col gap-5 mb-5">
       <div className="flex flex-row items-center justify-between w-full">

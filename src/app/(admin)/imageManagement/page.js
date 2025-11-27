@@ -1,5 +1,5 @@
-"use client"
-import React, { useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,14 +12,37 @@ import UserManagementTable from "@/app/Components/UserManagement/UserManagementT
 import { Image } from "lucide-react";
 import StatCards from "@/app/Components/StatCards";
 import { useRouter } from "next/navigation";
+import ImageListingTable from "@/app/Components/ImageManagement/ImageListingTable";
+import { toast } from "react-toastify";
+import { getImageStats } from "../../../../Api/ImageManagementApi/page";
 const Page = () => {
+  
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const result = await getImageStats();
+      if (result.data) {
+        setData(result.data?.[0]);
+        setLoading(false);
+      }
+    } catch (error) {
+      toast.error(error.message || "Error fetching stats data");
+    } finally {
+      setLoading(false);
+    }
+  };
   const stats = [
-    { title: "Total uploaded", number: 2426 },
-    { title: "fully tagged", number: 2426 },
-    { title: "incomplete", number: 453 },
-    { title: "active in gameplay", number: 4563 },
+    { title: "Total uploaded", number: data?.total??"--" },
+    { title: "fully tagged", number: data?.complete??"--" },
+    { title: "incomplete", number: data?.incomplete??"--" },
+    { title: "active in gameplay", number: data?.active??"--" },
   ];
-const router=useRouter()
+  const router = useRouter();
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <div className="flex flex-col gap-5 mb-5">
       <div className="flex flex-row items-center justify-between w-full">
@@ -43,7 +66,10 @@ const router=useRouter()
           </BreadcrumbItem> */}
           </BreadcrumbList>
         </Breadcrumb>
-        <button onClick={()=>router.push("/imageManagement/addImages")} className="px-4 py-2.5 bg-[#4E4C6A] rounded-full flex items-center flex-row gap-2 text-white cursor-pointer">
+        <button
+          onClick={() => router.push("/imageManagement/addImages")}
+          className="px-4 py-2.5 bg-[#4E4C6A] rounded-full flex items-center flex-row gap-2 text-white cursor-pointer"
+        >
           <Image size={18} />
           Add Images
         </button>
@@ -54,9 +80,8 @@ const router=useRouter()
             <StatCards key={index} title={stat.title} number={stat.number} />
           ))}
         </div>
-         <UserManagementTable />
+        <ImageListingTable />
       </div>
-
     </div>
   );
 };

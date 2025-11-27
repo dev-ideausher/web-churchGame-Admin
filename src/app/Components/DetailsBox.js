@@ -9,7 +9,7 @@ export default function ImageDetailsBox({ title = "Details", details }) {
       <div className="grid grid-cols-[250px_20px_1fr] items-start gap-y-3 gap-x-5 bg-white  p-2 border border-[#8380B4] rounded-md">
         {details.map((item, index) => (
           <Fragment key={index}>
-            <p className="font-medium text-[#4E4C6A] text-base">{item.label}</p>
+            <p className="font-medium text-[#4E4C6A] text-base capitalize">{item.label}</p>
             <p className="font-medium text-[#4E4C6A] text-base">:</p>
 
             {/* VALUE COLUMN */}

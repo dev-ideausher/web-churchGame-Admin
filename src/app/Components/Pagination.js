@@ -5,7 +5,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
   const isLast  = currentPage === totalPages || totalPages === 0;
 
   return (
-    <div className="w-full bg-gray-100 shadow-lg rounded-b-lg flex justify-end items-center border-t border-gray-100 px-4 py-1">
+    <div className="w-full bg-gray-50 shadow-lg rounded-b-lg flex justify-end items-center border-t border-gray-100 px-4 py-1">
       <div className="border bg-white border-gray-300 rounded-lg flex items-center shadow-md">
         {/* Prev button */}
         <button

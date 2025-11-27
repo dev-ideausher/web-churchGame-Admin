@@ -14,19 +14,21 @@ import {
 export const StatusBadge = ({ status }) => {
   const styles = {
     active: "bg-green-100 text-green-700 border-green-200",
+    accepted: "bg-green-100 text-green-700 border-green-200",
     ongoing:"bg-green-100 text-green-700 border-green-200",
     complete: "bg-green-100 text-green-700 border-green-200",
     suspended: "bg-yellow-100 text-yellow-700 border-yellow-200",
     inactive: "bg-red-100 text-red-700 border-red-200",
+    rejected: "bg-red-100 text-red-700 border-red-200",
   };
 
   return (
     <span
-      className={`inline-flex items-center px-3 py-1 rounded-md text-sm w-full justify-center border ${
+      className={`inline-flex items-center px-3 py-1 rounded-md text-sm w-full justify-center border capitalize ${
         styles[status] || styles.inactive
       }`}
     >
-      <span className="w-1.5 h-1.5 bg-current rounded-full mr-2"></span>
+      <span className="w-1.5 h-1.5 bg-current rounded-full mr-2 "></span>
       {status}
     </span>
   );
