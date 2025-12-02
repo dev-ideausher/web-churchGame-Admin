@@ -73,3 +73,25 @@ export const getArtStats = async () => {
     return apiError(e);
   }
 };
+
+export const statusArt = async (type, id) => {
+  const myHeaders = new Headers();
+  myHeaders.append("Authorization", "Bearer " + (await getTokenFromCookie()));
+
+  const requestOptions = {
+    method: "PATCH",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  try {
+    const response = await fetch(
+      url + `/bible-art/${type}/${id}`,
+      requestOptions
+    );
+
+    return responseValidator(response);
+  } catch (e) {
+    return apiError(e);
+  }
+};

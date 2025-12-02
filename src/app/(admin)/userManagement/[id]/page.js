@@ -167,7 +167,7 @@ const Page = () => {
             {activeTab2 === "groupJourney" && <GroupJourneyTable New id={id} />}
           </>
         )}
-        {activeTab === "daily-match" && <DailyMatchTable id={id}/>}
+        {activeTab === "daily-match" && <DailyMatchTable id={id} />}
         {activeTab === "groups" && <div>Groups</div>}
         {activeTab === "art-generation" && <div>Art Generation</div>}
         {activeTab === "badges" && <div>Badges</div>}

@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import { getAllArtRequests } from "../../../../Api/ArtGenerationApi/page";
 import dayjs from "dayjs";
 
-const ArtLisitngTable = () => {
+const CommunityTable = () => {
   const [searchValue, setSearchValue] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -209,7 +209,7 @@ const ArtLisitngTable = () => {
 
   return (
     <ReusableTable
-      title="Art Generation"
+      title="Today’s Shares"
       data={data}
       columns={columns}
       loading={loading}
@@ -224,4 +224,4 @@ const ArtLisitngTable = () => {
   );
 };
 
-export default ArtLisitngTable;
+export default CommunityTable;

@@ -15,6 +15,7 @@ import {
   Bell,
   HelpCircle,
   FileText,
+  Earth,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -31,7 +32,7 @@ const Sidebar = () => {
     { id: 5, name: "Art Generation", icon: Palette, path: "/artGeneration" },
     { id: 6, name: "Gameplays", icon: Gamepad, path: "/gameplays" },
     { id: 7, name: "Daily Match", icon: Calendar, path: "/dailyMatch" },
-    // { id: 8, name: "Community", icon: MessageCircle, path: "/community" },
+    { id: 8, name: "Community", icon: Earth, path: "/community" },
     // { id: 9, name: "Badges", icon: Award, path: "/badges" },
     // { id: 10, name: "Subscription", icon: CreditCard, path: "/subscription" },
     { id: 11, name: "Revenue", icon: DollarSign, path: "/revenue" },

@@ -13,7 +13,7 @@ const ImageListingTable = () => {
   const [searchValue, setSearchValue] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const router=useRouter()
+  const router = useRouter();
 
   const [selectedFilter, setSelectedFilter] = useState("all");
 
@@ -79,9 +79,9 @@ const ImageListingTable = () => {
     {
       accessorKey: "difficulty",
       header: "image Level",
-      // cell: ({ row }) => (
-      //   <TruncatedCell value={row.original.Difficulty || "N/A"} />
-      // ),
+      cell: ({ row }) => (
+        <p className="capitalize" > {row.original?.difficulty??"--"}</p>
+      ),
     },
     {
       accessorKey: "tags",
@@ -104,11 +104,29 @@ const ImageListingTable = () => {
     },
     {
       accessorKey: "devotional",
-      header: "devotionals",
+      header: "Devotionals",
+      cell: ({ row }) => {
+        const text = row.getValue("devotional") ?? "--";
+
+        return (
+          <div className="max-w-[150px] truncate" title={text}>
+            {text}
+          </div>
+        );
+      },
     },
     {
       accessorKey: "reflectionE",
       header: "reflections",
+        cell: ({ row }) => {
+        const text = row.getValue("reflectionE") ?? "--";
+
+        return (
+          <div className="max-w-[150px] truncate" title={text}>
+            {text}
+          </div>
+        );
+      },
     },
 
     {
@@ -125,7 +143,8 @@ const ImageListingTable = () => {
             {
               label: "View Details",
               icon: <Eye color="gray" size={14} />,
-              onClick: () => router.push(`/imageManagement/${row.original._id}`),
+              onClick: () =>
+                router.push(`/imageManagement/${row.original._id}`),
             },
             {
               label: "Edit Details",

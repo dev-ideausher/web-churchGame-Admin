@@ -64,7 +64,7 @@ export default function Page() {
           <StatCards key={index} title={stat.title} number={stat.number} />
         ))}
       </div>
-      <Tabs items={tabItems} onTabChange={setActiveTab} />
+      {/* <Tabs items={tabItems} onTabChange={setActiveTab} /> */}
 
       <ArtLisitngTable />
     </div>

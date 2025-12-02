@@ -50,8 +50,10 @@ const ReusableTable = ({
   return (
     <div className="bg-white rounded-lg border shadow-sm overflow-hidden">
       {/* Header */}
-      <div className="bg-[#4E4C6A] px-6 py-3 flex items-center justify-between
-       gap-5 ">
+      <div
+        className="bg-[#4E4C6A] px-6 py-3 flex items-center justify-between
+       gap-5 "
+      >
         <div className="flex flex-row  items-center gap-4 w-2/3">
           {" "}
           <h2 className="text-white text-lg font-semibold ">{title}</h2>
@@ -123,14 +125,12 @@ const ReusableTable = ({
         </div>
       </div>
 
-      {/* Reuse existing DataTable component */}
       <DataTable
         table={table}
         loading={loading}
         columnsCount={columns.length}
       />
-      
-      {/* Only show pagination if totalPages > 1 */}
+
       {pagination && pagination.totalPages > 1 && (
         <Pagination
           currentPage={pagination.page}
