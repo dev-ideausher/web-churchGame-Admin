@@ -72,8 +72,11 @@ const Page = () => {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
+     <div className="w-2/3 flex flex-col gap-4">
       <ImageDetailsBox title="User Information" details={details}/>
       <ImageDetailsBox title="Subscription information" details={details2}/>
+      
+     </div>
        <div className="w-full  mx-auto">
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
           <div className="bg-[#4E4C6A] px-6 py-4">

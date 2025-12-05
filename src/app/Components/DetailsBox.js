@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function ImageDetailsBox({ title = "Details", details }) {
   return (
-    <div className="flex flex-col gap-3 w-full">
+    <div className="flex flex-col gap-1 w-full">
       <p className="font-medium text-[#4E4C6A] text-base">{title}</p>
 
       <div className="grid grid-cols-[250px_20px_1fr] items-start gap-y-3 gap-x-5 bg-white  p-2 border border-[#8380B4] rounded-md">
@@ -15,7 +15,10 @@ export default function ImageDetailsBox({ title = "Details", details }) {
             <p className="font-medium text-[#4E4C6A] text-base">:</p>
 
             {/* VALUE COLUMN */}
-            <div title={item.value} className="font-medium text-[#1C1C1C] text-sm truncate">
+            <div
+              title={item.value}
+              className="font-medium text-[#1C1C1C] text-sm truncate"
+            >
               {item.type === "image" ? (
                 item.value ? (
                   <div

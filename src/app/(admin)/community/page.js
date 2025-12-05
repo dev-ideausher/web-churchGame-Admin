@@ -9,8 +9,11 @@ import {
 import StatCards from "@/app/Components/StatCards";
 import ImageDetailsBox from "@/app/Components/DetailsBox";
 import CommunityTable from "@/app/Components/Community/CommunityTable";
+import { Archive } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const Page = () => {
+  const router = useRouter();
   const stats = [
     { title: "Total shares", number: "123,456" },
     { title: "total likes", number: "123,456" },
@@ -49,9 +52,15 @@ const Page = () => {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        {/* <button className="px-4 py-2.5 rounded-full flex items-center flex-row gap-2 text-gray-700 cursor-pointer">
-          <Pencil />
-        </button> */}
+        <button
+          onClick={() => router.push("/community/archives")}
+          className="px-4 py-2.5 rounded-full flex items-center flex-row gap-2 cursor-pointer text-white bg-[#4E4C6A] font-semibold text-sm hover:shadow-lg"
+        >
+          <span>
+            <Archive size={16} />
+          </span>
+          Go to Archives
+        </button>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, index) => (
@@ -74,15 +83,19 @@ const Page = () => {
             <h2 className="text-[#1C1C1C] font-semibold text-base">
               Today&apos;s Reflection Question
             </h2>
-            <p className="bg-white py-2 px-5 border rounded-md">
+            <p className="bg-white py-2 px-5 border rounded-md ">
               From that time Jesus began to preach, saying, “Repent, for the
-              kingdom of heaven is at hand.”
+              kingdom of heaven is at hand.” From that time Jesus began to
+              preach, saying, “Repent, for the kingdom of heaven is at hand.”
+              From that time Jesus began to preach, saying, “Repent, for the
+              kingdom of heaven is at hand.” From that time Jesus began to
+              preach, saying, “Repent, for the kingdom of heaven is at hand.”
             </p>
           </div>
           <ImageDetailsBox title="Top share today:" details={details} />
         </div>
       </div>
-      <CommunityTable/>
+      <CommunityTable />
     </div>
   );
 };
