@@ -16,7 +16,6 @@ import ImageListingTable from "@/app/Components/ImageManagement/ImageListingTabl
 import { toast } from "react-toastify";
 import { getImageStats } from "../../../../Api/ImageManagementApi/page";
 const Page = () => {
-  
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const fetchData = async () => {
@@ -34,10 +33,10 @@ const Page = () => {
     }
   };
   const stats = [
-    { title: "Total uploaded", number: data?.total??"--" },
-    { title: "fully tagged", number: data?.complete??"--" },
-    { title: "incomplete", number: data?.incomplete??"--" },
-    { title: "active in gameplay", number: data?.active??"--" },
+    { title: "Total uploaded", number: data?.total ?? "--" },
+    { title: "fully tagged", number: data?.complete ?? "--" },
+    { title: "incomplete", number: data?.incomplete ?? "--" },
+    { title: "active in gameplay", number: data?.active ?? "--" },
   ];
   const router = useRouter();
   useEffect(() => {

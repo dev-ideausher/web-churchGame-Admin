@@ -49,7 +49,7 @@ const Page = () => {
               className="font-semibold text-base"
               href="/artGeneration"
             >
-              Art Generation
+              Revenue
             </BreadcrumbLink>
           </BreadcrumbItem>
         </BreadcrumbList>

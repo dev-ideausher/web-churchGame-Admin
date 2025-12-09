@@ -70,9 +70,12 @@ const Page = () => {
 
         <DetailsBox title="Image details" details={ImageDetails} />
         <div className="flex flex-row items-center gap-5 w-1/3">
-          <button className="px-4 py-2.5 rounded-full flex items-center flex-row gap-2 text-white cursor-pointer bg-[#026E0F]">Accept Image</button>
-          <button className="px-4 py-2.5 rounded-full flex items-center flex-row gap-2  cursor-pointer bg-[#9C1B1B] text-white">Reject Image</button>
-            
+          <button className="px-4 py-2.5 rounded-full flex items-center flex-row gap-2 text-white cursor-pointer bg-[#026E0F]">
+            Accept Image
+          </button>
+          <button className="px-4 py-2.5 rounded-full flex items-center flex-row gap-2  cursor-pointer bg-[#9C1B1B] text-white">
+            Reject Image
+          </button>
         </div>
       </div>
     </div>

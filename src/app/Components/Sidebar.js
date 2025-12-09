@@ -33,7 +33,7 @@ const Sidebar = () => {
     { id: 6, name: "Gameplays", icon: Gamepad, path: "/gameplays" },
     { id: 7, name: "Daily Match", icon: Calendar, path: "/dailyMatch" },
     { id: 8, name: "Community", icon: Earth, path: "/community" },
-    // { id: 9, name: "Badges", icon: Award, path: "/badges" },
+    { id: 9, name: "Badges", icon: Award, path: "/badges" },
     // { id: 10, name: "Subscription", icon: CreditCard, path: "/subscription" },
     { id: 11, name: "Revenue", icon: DollarSign, path: "/revenue" },
     // { id: 12, name: "Notifications", icon: Bell, path: "/notifications" },
